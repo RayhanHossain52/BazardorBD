@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,10 +8,10 @@ const Banner = () => {
     });
 
     return (
-        <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+        <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-0">
             <div className="grid grid-cols-1 items-center gap-8 rounded-3xl border border-[#dce6de] bg-[#fafcfb] px-5 py-8 sm:px-8 md:grid-cols-2 md:gap-6 lg:px-10 lg:py-10">
 
-                {/* Left Side: Text Content */}
+
                 <div className="flex flex-col items-start">
                     <p className="mb-4 rounded-full bg-[#e3f1e7] px-3 py-1 text-sm font-medium text-[#078b45]">
                         {date}
@@ -36,7 +35,7 @@ const Banner = () => {
                     </Link>
                 </div>
 
-                {/* Right Side: Hero Image */}
+
                 <div className="flex items-center justify-center">
                     <Image
                         src="/bazar-hero.png"
