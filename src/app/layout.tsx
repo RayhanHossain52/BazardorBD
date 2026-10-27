@@ -18,14 +18,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      data-theme= "light"
+      data-theme="light"
       className={`${notoSerifBengali.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#F0F5F0]">
         <Header></Header>
-        {children}
+        <main className="flex-1">
+          {children}
+        </main>
         <Footer></Footer>
-        </body>
+      </body>
     </html>
   );
 }

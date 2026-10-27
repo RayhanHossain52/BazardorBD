@@ -27,10 +27,9 @@ const NavLink = async () => {
                         <Link
                             key={link.id}
                             href={`/category/${link.slug}`}
-                            className="group relative flex items-center gap-1.5 whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-700 transition hover:text-[#078b45] sm:px-2 sm:text-base"            >
+                            className="group relative flex items-center gap-1.5 whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-700 transition hover:text-[#078b45] sm:px-2 sm:text-base">
                             <span>{link.icon}</span>
                             <span>{link.nameBn}</span>
-
                             <span className="absolute inset-x-3 bottom-0 h-0.5 scale-x-0 bg-pink-500 transition-transform group-hover:scale-x-100" />
                         </Link>
                     ))}

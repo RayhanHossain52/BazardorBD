@@ -1,19 +1,8 @@
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import PriceDecreaseCard from "./PriceDecreaseCard";
+import { Product } from "@/types/productTyp";
 
-
-interface Types {
-    id: number;
-    nameBn: string;
-    categoryIcon: string;
-    unit: string;
-    today: number;
-    change: {
-        dir: "up" | "down";
-        pct: number;
-    };
-}
 
 const PriceDecreaseProduct = async () => {
     const res = await fetch(
@@ -24,7 +13,7 @@ const PriceDecreaseProduct = async () => {
         throw new Error("Failed to fetch product prices");
     }
 
-    const data: Types[] = await res.json();
+    const data: Product[] = await res.json();
 
     const upProducts = data.filter(
         (product) => product.change.dir === "down"

@@ -1,16 +1,5 @@
+import { Product } from "@/types/productTyp";
 import { BiSolidDownArrow } from "react-icons/bi";
-
-interface Types {
-    id: number;
-    nameBn: string;
-    categoryIcon: string;
-    unit: string;
-    today: number;
-    change: {
-        dir: "up" | "down";
-        pct: number;
-    };
-}
 
 const unitInBangla: Record<string, string> = {
     kg: "কেজি",
@@ -24,7 +13,7 @@ const toBanglaNumber = (value: number) =>
         maximumFractionDigits: 2,
     });
 
-const PriceDecreaseCard = ({ product }: { product: Types }) => {
+const PriceDecreaseCard = ({ product }: { product: Product }) => {
     return (
         <div className="flex min-h-[138px] flex-col justify-between rounded-2xl border border-[#dce6de] bg-[#fafcfb] p-4 transition duration-200 hover:border-[#b8d5c1] hover:shadow-sm">
 

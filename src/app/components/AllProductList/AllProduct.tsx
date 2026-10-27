@@ -1,20 +1,8 @@
 
 import { BiSolidDownArrow } from "react-icons/bi";
-import PriceDecreaseCard from "./PriceDecreaseCard";
 import AllProductCard from "./AllProductCard";
+import { Product } from "@/types/productTyp";
 
-
-interface Types {
-    id: number;
-    nameBn: string;
-    categoryIcon: string;
-    unit: string;
-    today: number;
-    change: {
-        dir: "up" | "down";
-        pct: number;
-    };
-}
 
 const AllProduct = async () => {
     const res = await fetch(
@@ -25,7 +13,7 @@ const AllProduct = async () => {
         throw new Error("Failed to fetch product prices");
     }
 
-    const data: Types[] = await res.json();
+    const data: Product[] = await res.json();
 
     const toBanglaNumber = (value: number) =>
         value.toLocaleString("bn-BD", {

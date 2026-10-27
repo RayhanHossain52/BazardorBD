@@ -1,19 +1,8 @@
 
+import { Product } from "@/types/productTyp";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
-
-interface MarqueeTypes {
-  id: number;
-  nameBn: string;
-  categoryIcon: string;
-  unit: string;
-  today: number;
-  change: {
-    dir: "up" | "down";
-    pct: number;
-  };
-}
 
 const unitInBangla: Record<string, string> = {
   kg: "কেজি",
@@ -36,7 +25,7 @@ const Marquee = async () => {
     return null;
   }
 
-  const data: MarqueeTypes[] = await res.json();
+  const data: Product[] = await res.json();
 
   return (
     <div className="w-full border-b border-gray-200 bg-[#f4f7f4] text-[#252525]">
