@@ -1,4 +1,4 @@
-import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
+import { BiSolidDownArrow } from "react-icons/bi";
 
 interface Types {
     id: number;
