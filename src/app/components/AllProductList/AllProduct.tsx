@@ -47,7 +47,7 @@ const AllProduct = async () => {
                 </h2>
             </div>
 
-            {data.length > 0 ? (<p className="text-gray-500 my-4">মোট {toBanglaNumber(data.length)}টি পণ্য দেখানো হচ্ছে</p>) : ""}
+            {data.length > 0 ? (<p className="mb-4 mb-1 text-xs text-[#7a8980]">মোট {toBanglaNumber(data.length)}টি পণ্য দেখানো হচ্ছে</p>) : ""}
 
 
             {
