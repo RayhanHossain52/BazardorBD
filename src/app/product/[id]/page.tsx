@@ -1,30 +1,74 @@
+
+"use client";
+
 import MarketPriceTable from "@/app/components/MarketPriceTable";
 import PriceSummary from "@/app/components/PriceSumary";
 import type { Product } from "@/types/productType";
-import { notFound } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
+import { notFound } from "next/navigation";
 
 interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-const Page = async ({ params }: PageProps) => {
-    const { id } = await params;
+export default function Page({ params }: PageProps) {
+    const { data: session, isPending } = useSession();
+    const router = useRouter();
 
-    const res = await fetch(
-        `https://openapi.programming-hero.com/api/bazardor/products/${id}`
-    );
+    const [id, setId] = useState<string | null>(null);
+    const [data, setData] = useState<Product | null>(null);
+    const [loadingProduct, setLoadingProduct] = useState(true);
+    const [productNotFound, setProductNotFound] = useState(false);
 
-    if (!res.ok) {
+    useEffect(() => {
+        params.then(({ id }) => setId(id));
+    }, [params]);
+
+    useEffect(() => {
+        if (!isPending && !session) {
+            router.replace(`/sign-in?callbackURL=${encodeURIComponent(window.location.pathname)}`);
+        }
+    }, [session, isPending, router]);
+
+    useEffect(() => {
+        if (isPending || !session || !id) return;
+
+        const loadProduct = async () => {
+            try {
+                const res = await fetch(
+                    `https://openapi.programming-hero.com/api/bazardor/products/${id}`
+                );
+
+                if (!res.ok) {
+                    setProductNotFound(true);
+                    return;
+                }
+
+                const product: Product = await res.json();
+                setData(product);
+            } catch {
+                setProductNotFound(true);
+            } finally {
+                setLoadingProduct(false);
+            }
+        };
+
+        loadProduct();
+    }, [id, session, isPending]);
+
+    if (isPending || !session || !id || loadingProduct) {
+        return <p className="p-6 text-center">লোড হচ্ছে...</p>;
+    }
+
+    if (productNotFound || !data) {
         notFound();
     }
 
-    const data: Product = await res.json();
-
     const toBanglaNumber = (value: number) =>
-        value.toLocaleString("bn-BD", {
-            maximumFractionDigits: 2,
-        });
+        value.toLocaleString("bn-BD", { maximumFractionDigits: 2 });
 
     const unitInBangla: Record<string, string> = {
         kg: "কেজি",
@@ -36,8 +80,6 @@ const Page = async ({ params }: PageProps) => {
     return (
         <main className="min-h-screen bg-[#f0f5f0] px-4 py-6 sm:px-6">
             <div className="mx-auto max-w-5xl space-y-4">
-
-                {/* First part: Product header */}
                 <section className="flex flex-col gap-4 rounded-xl border border-[#e0e8e0] bg-[#fbfdfb] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
                     <div className="flex min-w-0 items-center gap-3">
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#f0f5f0] text-3xl">
@@ -50,7 +92,8 @@ const Page = async ({ params }: PageProps) => {
                             </h1>
 
                             <p className="mt-1 text-sm text-gray-500">
-                                প্রতি {unitInBangla[data.unit] ?? data.unit} · {data.categoryNameBn}
+                                প্রতি {unitInBangla[data.unit] ?? data.unit} ·{" "}
+                                {data.categoryNameBn}
                             </p>
 
                             <p className="mt-2 text-xs text-gray-600">
@@ -66,11 +109,9 @@ const Page = async ({ params }: PageProps) => {
 
                     <div className="shrink-0 rounded-xl bg-[#f0f5f0] px-5 py-3 text-center sm:min-w-32">
                         <p className="text-xs text-gray-500">আজকের দাম</p>
-
                         <h2 className="mt-1 text-2xl font-bold text-[#26352b]">
                             {toBanglaNumber(data.today)}
                         </h2>
-
                         <p className="text-xs text-gray-500">
                             টাকা / {unitInBangla[data.unit] ?? data.unit}
                         </p>
@@ -100,6 +141,4 @@ const Page = async ({ params }: PageProps) => {
             </div>
         </main>
     );
-};
-
-export default Page;
+}

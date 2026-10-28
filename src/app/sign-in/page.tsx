@@ -1,5 +1,6 @@
 
 "use client";
+
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -22,6 +23,11 @@ const SignInPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const callbackURL =
+        typeof window !== "undefined"
+            ? new URLSearchParams(window.location.search).get("callbackURL") || "/"
+            : "/";
+
     // Email and password login
     const handleLogin = async (
         e: React.FormEvent<HTMLFormElement>
@@ -34,7 +40,7 @@ const SignInPage = () => {
         const { error } = await authClient.signIn.email({
             email,
             password,
-            callbackURL: "/",
+            callbackURL,
         });
 
         setIsLoading(false);
@@ -45,7 +51,7 @@ const SignInPage = () => {
         }
 
         toast.success("সফলভাবে সাইন ইন হয়েছে!");
-        router.push("/");
+        router.replace(callbackURL);
         router.refresh();
     };
 
@@ -55,7 +61,7 @@ const SignInPage = () => {
 
         const { error } = await authClient.signIn.social({
             provider: "google",
-            callbackURL: "/",
+            callbackURL,
         });
 
         if (error) {
@@ -68,7 +74,6 @@ const SignInPage = () => {
     return (
         <div className="min-h-screen bg-[#f0f5f0] px-4 py-8 sm:py-10">
             <div className="mx-auto w-full max-w-md">
-
                 {/* Header */}
                 <div className="mb-6 text-center">
                     <h1 className="text-2xl font-bold text-[#26352b]">

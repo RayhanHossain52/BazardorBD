@@ -1,3 +1,6 @@
+import { setServers } from "node:dns/promises";
+setServers(["1.1.1.1", "8.8.8.8"]);
+
 import { Toaster } from "react-hot-toast";
 import type { Metadata } from "next";
 import { Noto_Serif_Bengali } from "next/font/google";
