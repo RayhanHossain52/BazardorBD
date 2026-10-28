@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Product } from "@/types/productTyp";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
+import Link from "next/link";
 
 interface CategoryProductsProps {
     products: Product[];
@@ -20,7 +21,7 @@ const toBanglaNumber = (value: number) =>
         maximumFractionDigits: 2,
     });
 
-const CategoryProducts = ({ products }: CategoryProductsProps) => {
+const CategoryCard = ({ products }: CategoryProductsProps) => {
 
     const [sortby, setSortby] = useState<"default" | "price-low" | "price-high">("default");
 
@@ -40,6 +41,7 @@ const CategoryProducts = ({ products }: CategoryProductsProps) => {
 
     const category = products[0];
     return (
+
         <div>
             {/* Category header */}
             <section className="flex items-center gap-3 rounded-xl border border-[#e0e8e0] bg-[#fbfdfb] px-4 py-4 sm:px-5">
@@ -84,6 +86,8 @@ const CategoryProducts = ({ products }: CategoryProductsProps) => {
             {/* Product grid */}
             <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {sortList(products).map((product) => (
+
+                    <Link key={product.id} href={`/product/${product.id}`} className="block">
                     <article
                         key={product.id}
                         className="rounded-2xl border border-[#e0e8e0] bg-[#fbfdfb] p-3 transition hover:border-[#b8d4bd] hover:shadow-sm sm:p-4"
@@ -138,10 +142,13 @@ const CategoryProducts = ({ products }: CategoryProductsProps) => {
                             </span>
                         </div>
                     </article>
+                    </Link>
+
                 ))}
             </section>
         </div>
+
     );
 };
 
-export default CategoryProducts;
+export default CategoryCard;

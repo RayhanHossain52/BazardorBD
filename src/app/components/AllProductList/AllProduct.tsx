@@ -1,5 +1,4 @@
 
-import { BiSolidDownArrow } from "react-icons/bi";
 import AllProductCard from "./AllProductCard";
 import { Product } from "@/types/productTyp";
 
@@ -21,19 +20,12 @@ const AllProduct = async () => {
         });
 
     return (
-        <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-0">
+        <section id="products" className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-0">
 
-            <div className="mb-3 flex items-center gap-2">
-
-                <BiSolidDownArrow
-                    aria-hidden="true"
-                    className="shrink-0 text-[13px] text-green-600"
-                />
-
-                <h2 className="text-xl font-bold text-[#17291e] sm:text-2xl">
+                <h2 className="mb-2 text-xl font-bold text-[#17291e] sm:text-2xl">
                     সব পণ্য
                 </h2>
-            </div>
+
 
             {data.length > 0 ? (<p className="mb-4 mb-1 text-xs text-[#7a8980]">মোট {toBanglaNumber(data.length)}টি পণ্য দেখানো হচ্ছে</p>) : ""}
 
@@ -42,6 +34,7 @@ const AllProduct = async () => {
                 data.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {data.map((product) => (
+
                             <AllProductCard
                                 key={product.id}
                                 product={product}

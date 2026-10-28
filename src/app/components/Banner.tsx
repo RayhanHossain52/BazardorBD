@@ -28,7 +28,8 @@ const Banner = () => {
                     </p>
 
                     <Link
-                        href="#"
+                        href="#products"
+                        scroll={true}
                         className="inline-flex items-center justify-center rounded-lg bg-[#078b45] px-4 py-2.5 text-sm font-semibold text-white shadow-md transition duration-200 hover:bg-[#06753b] hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078b45] sm:text-base"
                     >
                         সব পণ্য দেখুন

@@ -1,5 +1,5 @@
 
-import CategoryProducts from "@/app/components/CategoryProducts";
+import CategoryCard from "@/app/components/CategoryCard";
 import { Product } from "@/types/productTyp";
 import { notFound } from "next/navigation";
 
@@ -25,7 +25,7 @@ const CategoryPage = async ({params}: {params: Promise<{ id: string }>}) => {
   return (
      <main className="min-h-screen bg-[#f0f5f0] px-4 py-6 text-[#202923] sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <CategoryProducts products={categoryProducts} />
+        <CategoryCard products={categoryProducts} />
       </div>
     </main>
   );

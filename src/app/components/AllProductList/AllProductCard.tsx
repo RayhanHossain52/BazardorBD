@@ -1,5 +1,6 @@
 import { Product } from "@/types/productTyp";
-import { BiSolidDownArrow } from "react-icons/bi";
+import Link from "next/link";
+import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 
 const unitInBangla: Record<string, string> = {
     kg: "কেজি",
@@ -15,49 +16,67 @@ const toBanglaNumber = (value: number) =>
 
 const AllProductCard = ({ product }: { product: Product }) => {
     return (
-        <div className="flex min-h-[138px] flex-col justify-between rounded-2xl border border-[#dce6de] bg-[#fafcfb] p-4 transition duration-200 hover:border-[#b8d5c1] hover:shadow-sm">
 
-         
+        <Link key={product.id}
+        href={`/product/${product.id}`}
+        className="block">
 
-            {/* Product information */}
-            <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#f0f5f0] text-2xl">
-                    {product.categoryIcon}
+            <div className="flex min-h-[138px] flex-col justify-between rounded-2xl border border-[#dce6de] bg-[#fafcfb] p-4 transition duration-200 hover:border-[#b8d5c1] hover:shadow-sm">
+
+                {/* Product information */}
+                <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#f0f5f0] text-2xl">
+                        {product.categoryIcon}
+                    </div>
+
+                    <div className="min-w-0">
+                        <h3 className="truncate text-base font-bold text-[#17291e] sm:text-lg">
+                            {product.nameBn}
+                        </h3>
+
+                        <p className="text-xs text-[#7a8980] sm:text-sm">
+                            প্রতি {unitInBangla[product.unit] ?? product.unit}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="min-w-0">
-                    <h3 className="truncate text-base font-bold text-[#17291e] sm:text-lg">
-                        {product.nameBn}
-                    </h3>
-
-                    <p className="text-xs text-[#7a8980] sm:text-sm">
-                        প্রতি {unitInBangla[product.unit] ?? product.unit}
-                    </p>
-                </div>
-            </div>
-
-            {/* Today's price */}
-            <div className="mt-3">
-                <p className="mb-1 text-xs text-[#7a8980]">
-                    আজকের দাম
-                </p>
-
-                <div className="flex items-center justify-between gap-2">
-                    <p className="text-lg font-bold leading-none text-[#17291e] sm:text-xl">
-                        {toBanglaNumber(product.today)} টাকা
+                {/* Today's price */}
+                <div className="mt-3">
+                    <p className="mb-1 text-xs text-[#7a8980]">
+                        আজকের দাম
                     </p>
 
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#f0f5f0] px-2.5 py-1 text-xs font-medium text-green-600">
-                        <BiSolidDownArrow
-                            aria-hidden="true"
-                            className="shrink-0 text-[13px] text-green-600"
-                        />
-                        {toBanglaNumber(Math.abs(product.change.pct))}%
-                    </span>
-                </div>
-            </div>
+                    <div className="flex items-center justify-between gap-2">
+                        <p className="text-lg font-bold leading-none text-[#17291e] sm:text-xl">
+                            {toBanglaNumber(product.today)} টাকা
+                        </p>
 
-        </div>
+
+                        {product.change.dir === "up" ? (
+                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#f0f5f0] px-2.5 py-1 text-xs font-medium text-red-600">
+                                <BiSolidUpArrow className="text-[10px]" />
+                                {toBanglaNumber(product.change.pct)}%
+                            </span>
+                        ) : product.change.dir === "flat" ? (
+                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#f0f5f0] px-2.5 py-1 text-xs font-medium text-gray-500">
+                                — {toBanglaNumber(Math.abs(product.change.pct))}%
+                            </span>
+                        ) : (
+                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#f0f5f0] px-2.5 py-1 text-xs font-medium text-green-600">
+                                <BiSolidDownArrow
+                                    aria-hidden="true"
+                                    className="shrink-0 text-[13px] text-green-600"
+                                />
+                                {toBanglaNumber(Math.abs(product.change.pct))}%
+                            </span>
+                        )}
+
+                    </div>
+                </div>
+
+            </div>
+        </Link>
+
     );
 };
 

@@ -1,5 +1,6 @@
 
 import { Product } from "@/types/productTyp";
+import Link from "next/link";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
@@ -34,14 +35,14 @@ const Marquee = async () => {
       <div className="overflow-hidden">
         <MarqueeText direction="right" duration={25}>
           {data.map((headline) => (
-            <span
+            <Link
               key={headline.id}
-              className="inline-flex items-center gap-1.5 whitespace-nowrap border-r border-gray-200 px-4 py-2.5 text-sm sm:gap-2 sm:px-5 sm:text-base"            >
+              href={`/product/${headline.id}`}
+              className="inline-flex items-center gap-1.5 whitespace-nowrap border-r border-gray-200 px-4 py-2.5 text-sm transition hover:bg-[#e8f0e8] sm:gap-2 sm:px-5 sm:text-base"
+            >
               <span>{headline.categoryIcon}</span>
 
-              <span className="font-medium">
-                {headline.nameBn}
-              </span>
+              <span className="font-medium">{headline.nameBn}</span>
 
               <span>
                 {toBanglaNumber(headline.today)} টাকা/
@@ -51,18 +52,22 @@ const Marquee = async () => {
               <span
                 className={`inline-flex shrink-0 items-center gap-1 font-semibold ${headline.change.dir === "up"
                     ? "text-red-600"
-                    : "text-green-600"
+                    : headline.change.dir === "down"
+                      ? "text-green-600"
+                      : "text-gray-500"
                   }`}
               >
                 {headline.change.dir === "up" ? (
                   <BiSolidUpArrow className="text-[10px]" />
-                ) : (
+                ) : headline.change.dir === "down" ? (
                   <BiSolidDownArrow className="text-[10px]" />
+                ) : (
+                  "—"
                 )}
 
-                {toBanglaNumber(headline.change.pct)}%
+                {toBanglaNumber(Math.abs(headline.change.pct))}%
               </span>
-            </span>
+            </Link>
           ))}
         </MarqueeText>
       </div>
