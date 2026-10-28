@@ -119,7 +119,7 @@ const MyProfilePage = () => {
 
                     <Button
                         type="button"
-                        variant="bordered"
+                        variant="outline"
                         onPress={handleSignOut}
                         className="shrink-0 border-red-500 text-red-600 hover:bg-red-50"
                     >
