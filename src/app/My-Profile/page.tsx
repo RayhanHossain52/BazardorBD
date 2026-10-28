@@ -1,6 +1,5 @@
 "use client";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient, signOut, updateUser } from "@/lib/auth-client";
@@ -8,7 +7,6 @@ import {
     Button,
     FieldError,
     Form,
-    Input,
     Label,
     TextField,
 } from "@heroui/react";

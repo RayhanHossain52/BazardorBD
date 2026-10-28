@@ -3,6 +3,7 @@ import { BiSolidUpArrow } from "react-icons/bi";
 import PriceIncreaseCard from "./PriceIncreaseCard";
 import { Product } from "@/types/productType";
 
+
 const PriceIncreaseProduct = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/bazardor/products/"
