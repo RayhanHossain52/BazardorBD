@@ -1,6 +1,6 @@
 import MarketPriceTable from "@/app/components/MarketPriceTable";
 import PriceSummary from "@/app/components/PriceSumary";
-import type { Product } from "@/types/productTyp";
+import type { Product } from "@/types/productType";
 import { notFound } from "next/navigation";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 

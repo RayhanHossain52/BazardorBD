@@ -1,5 +1,6 @@
 "use client";
-
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient, signOut, updateUser } from "@/lib/auth-client";
@@ -25,6 +26,7 @@ const MyProfilePage = () => {
 
     const handleSignOut = async () => {
         await signOut();
+        toast.success("সাইন আউট সফল হয়েছে!");
         router.push("/");
         router.refresh();
     };
@@ -50,6 +52,7 @@ const MyProfilePage = () => {
             } else {
                 setMessage("নাম সফলভাবে আপডেট হয়েছে।");
                 router.refresh();
+                toast.success("নাম সফলভাবে আপডেট হয়েছে।");
             }
         } catch {
             setMessage("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
@@ -157,8 +160,8 @@ const MyProfilePage = () => {
                         {message && (
                             <p
                                 className={`mt-3 text-sm ${message.includes("সফলভাবে")
-                                        ? "text-[#078b45]"
-                                        : "text-red-600"
+                                    ? "text-[#078b45]"
+                                    : "text-red-600"
                                     }`}
                             >
                                 {message}

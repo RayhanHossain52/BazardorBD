@@ -1,7 +1,9 @@
 
 "use client";
+
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { authClient, signIn } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import {
     Button,
     Description,
@@ -21,7 +23,9 @@ const SignUpPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
     const router = useRouter();
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -30,6 +34,7 @@ const SignUpPage = () => {
 
         if (password !== confirmPassword) {
             setPasswordMismatch(true);
+            toast.error("দুটি পাসওয়ার্ড মিলছে না।");
             return;
         }
 
@@ -41,47 +46,46 @@ const SignUpPage = () => {
         const name = formData.get("name") as string;
         const email = formData.get("email") as string;
 
-        try {
-            const { data, error } = await authClient.signUp.email({
-                name,
-                email,
-                password,
-                callbackURL: "/",
-            });
+        const { data, error } = await authClient.signUp.email({
+            name,
+            email,
+            password,
+            callbackURL: "/",
+        });
 
-            if (error) {
-                setErrorMessage(error.message || "সাইন আপ করা যায়নি।");
-                return;
-            }
+        setIsLoading(false);
 
-            if (data) {
-                router.push("/");
-                router.refresh();
-            }
-        } catch {
-            setErrorMessage("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-        } finally {
-            setIsLoading(false);
+        if (error) {
+            const message = error.message || "সাইন আপ করা যায়নি।";
+
+            setErrorMessage(message);
+            toast.error(message);
+            return;
+        }
+
+        if (data) {
+            setSuccessMessage("অ্যাকাউন্ট তৈরি হয়েছে!");
+            toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
+
+            router.push("/");
+            router.refresh();
         }
     };
 
     const handleGoogleSignUp = async () => {
-        const resData = await signIn.social({
-                provider: "google"
-            })
         setErrorMessage("");
 
-        try {
-            const { error } = await authClient.signIn.social({
-                provider: "google",
-                callbackURL: "/",
-            });
+        const { error } = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/",
+        });
 
-            if (error) {
-                setErrorMessage(error.message || "Google দিয়ে সাইন আপ করা যায়নি।");
-            }
-        } catch {
-            setErrorMessage("Google signup ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+        if (error) {
+            const message =
+                error.message || "Google দিয়ে সাইন আপ করা যায়নি।";
+
+            setErrorMessage(message);
+            toast.error(message);
         }
     };
 
@@ -101,7 +105,10 @@ const SignUpPage = () => {
 
                 {/* Form Card */}
                 <div className="rounded-2xl border border-[#dce6de] bg-[#fbfdfb] p-5 sm:p-6">
-                    <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
+                    <Form
+                        className="flex flex-col gap-4"
+                        onSubmit={onSubmit}
+                    >
                         {/* Name */}
                         <TextField
                             isRequired
@@ -132,7 +139,9 @@ const SignUpPage = () => {
                             name="email"
                             type="email"
                             validate={(value) =>
-                                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
+                                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                                    value
+                                )
                                     ? "Please enter a valid email address"
                                     : null
                             }
@@ -183,10 +192,11 @@ const SignUpPage = () => {
                                 value={password}
                                 onChange={(e) => {
                                     const value = e.target.value;
+
                                     setPassword(value);
                                     setPasswordMismatch(
                                         confirmPassword.length > 0 &&
-                                        value !== confirmPassword
+                                            value !== confirmPassword
                                     );
                                 }}
                                 placeholder="কমপক্ষে ৮ অক্ষর"
@@ -228,16 +238,18 @@ const SignUpPage = () => {
                                 value={confirmPassword}
                                 onChange={(e) => {
                                     const value = e.target.value;
+
                                     setConfirmPassword(value);
                                     setPasswordMismatch(
                                         value.length > 0 && value !== password
                                     );
                                 }}
                                 placeholder="আবার লিখুন"
-                                className={`w-full rounded-lg border ${passwordMismatch
-                                    ? "!border-red-500"
-                                    : "border-[#dce6de]"
-                                    } bg-transparent px-3 py-2.5 text-sm outline-none focus:border-[#078b45] focus:ring-2 focus:ring-[#078b45]/10`}
+                                className={`w-full rounded-lg border ${
+                                    passwordMismatch
+                                        ? "!border-red-500"
+                                        : "border-[#dce6de]"
+                                } bg-transparent px-3 py-2.5 text-sm outline-none focus:border-[#078b45] focus:ring-2 focus:ring-[#078b45]/10`}
                             />
 
                             {passwordMismatch && (
@@ -266,13 +278,17 @@ const SignUpPage = () => {
                             isDisabled={isLoading}
                             className="mt-1 w-full rounded-lg bg-[#078b45] px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#06753b]"
                         >
-                            {isLoading ? "অপেক্ষা করুন..." : "অ্যাকাউন্ট তৈরি করুন"}
+                            {isLoading
+                                ? "অপেক্ষা করুন..."
+                                : "অ্যাকাউন্ট তৈরি করুন"}
                         </Button>
 
                         {/* Divider */}
                         <div className="flex items-center gap-3 py-1">
                             <div className="h-px flex-1 bg-[#dce6de]" />
-                            <span className="text-xs text-[#6b776e]">অথবা</span>
+                            <span className="text-xs text-[#6b776e]">
+                                অথবা
+                            </span>
                             <div className="h-px flex-1 bg-[#dce6de]" />
                         </div>
 

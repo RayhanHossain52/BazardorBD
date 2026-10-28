@@ -1,5 +1,5 @@
 
-import { Product } from "@/types/productTyp";
+import { Product } from "@/types/productType";
 import Link from "next/link";
 import { BiSolidUpArrow } from "react-icons/bi";
 

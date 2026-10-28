@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Product } from "@/types/productTyp";
+import { Product } from "@/types/productType";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import Link from "next/link";
 

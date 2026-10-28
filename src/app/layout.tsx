@@ -1,6 +1,6 @@
+import { Toaster } from "react-hot-toast";
 import { setServers } from "node:dns/promises";
 setServers(["1.1.1.1", "8.8.8.8"]);
-
 import type { Metadata } from "next";
 import { Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
@@ -25,6 +25,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${notoSerifBengali.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#F0F5F0]">
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            className: "text-sm",
+          }}
+        />
         <Header></Header>
         <main className="flex-1">
           {children}

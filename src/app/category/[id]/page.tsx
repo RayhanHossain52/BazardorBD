@@ -1,6 +1,6 @@
 
 import CategoryCard from "@/app/components/CategoryCard";
-import { Product } from "@/types/productTyp";
+import { Product } from "@/types/productType";
 import { notFound } from "next/navigation";
 
 

@@ -1,6 +1,6 @@
 
 "use client";
-
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import {
@@ -40,12 +40,11 @@ const SignInPage = () => {
         setIsLoading(false);
 
         if (error) {
-            setErrorMessage(
-                error.message || "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।"
-            );
+            toast.error("ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।");
             return;
         }
 
+        toast.success("সফলভাবে সাইন ইন হয়েছে!");
         router.push("/");
         router.refresh();
     };

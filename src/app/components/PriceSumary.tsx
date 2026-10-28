@@ -1,5 +1,5 @@
 
-import type { Product } from "@/types/productTyp";
+import type { Product } from "@/types/productType";
 
 interface PriceSummaryProps {
     data: Product;
